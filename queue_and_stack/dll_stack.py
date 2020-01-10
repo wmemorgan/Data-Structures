@@ -1,15 +1,15 @@
-from doubly_linked_list import DoublyLinkedList, ListNode
+from doubly_linked_list import DoublyLinkedList
 
 class Stack:
     def __init__(self):
         self.size = 0
         # Why is our DLL a good choice to store our elements?
             # ANSWER: Push and Pop have O(1) time complexity
-        self.storage = None
+        self.storage = DoublyLinkedList()
 
     def push(self, value):
-        if self.storage is None:
-            self.storage = DoublyLinkedList(ListNode(value))
+        if self.storage.length == 0:
+            self.storage.add_to_head(value)
 
         else:
             self.storage.add_to_tail(value)
@@ -17,7 +17,7 @@ class Stack:
         self.size = self.storage.length
 
     def pop(self):
-        if self.storage is None:
+        if self.storage.tail is None:
             return None
 
         else:
