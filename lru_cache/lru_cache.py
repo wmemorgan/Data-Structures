@@ -10,7 +10,8 @@ class LRUCache:
     """
     def __init__(self, limit=10):
         self.limit = limit
-        self.storage = None
+        self.storage = dict()
+        self.order = Queue()
 
     """
     Retrieves the value associated with the given key. Also
@@ -20,19 +21,13 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        # print(f"LOOKING FOR KEY: {key}")
-        if self.storage is None:
+        if key not in self.storage:
             return None
 
-        curr_node = self.storage.storage.head
-        while curr_node:
-            if key in curr_node.value:
-                self.storage.storage.move_to_end(curr_node)
-                return curr_node.value[key]
-
-            curr_node = curr_node.next
-
-        return None
+        else:
+            node = self.storage[key]
+            self.order.storage.move_to_end(node)
+            return node.value[1]
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -45,30 +40,27 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        if self.storage is None:
-            self.storage = Queue()
-            self.storage.enqueue({key: value})
-
-        elif self.get(key):
-            # print(f"key exists")
-            #self.storage.storage.tail.value.update({key : value})
-            self.storage.storage.tail.value[key] = value
-            # print(f"NEW K,V: {self.storage.storage.tail.value}")
+        if key in self.storage:
+            node = self.storage[key]
+            node.value = (key, value)
+            self.order.storage.move_to_end(node)
 
         else:
+            self.order.enqueue((key, value))
+            self.storage[key] = self.order.storage.tail
             self.checkLimit()
-            self.storage.enqueue({key: value})
 
 
     def checkLimit(self):
-        if self.storage.len() >= self.limit:
-            self.storage.dequeue()
+        if self.order.len() > self.limit:
+            del self.storage[self.order.dequeue()[0]]
+            
 
     def print_cache(self):
-        if self.storage is None:
+        if self.order.len() == 0:
             print("Empty cache")
 
-        node = self.storage.storage.head
+        node = self.order.storage.head
         print("lru_cache contents:")
         while node:
             print(node.value)
