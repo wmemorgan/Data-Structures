@@ -1,8 +1,5 @@
-import sys
-sys.path.append('../queue_and_stack')
 from dll_queue import Queue
 from dll_stack import Stack
-
 
 class BinarySearchTree:
     def __init__(self, value):
@@ -12,21 +9,86 @@ class BinarySearchTree:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        # Evaluate parent node
+        if self.value is None:
+            self.value = value
+
+        # Edge case to address duplicate values
+        if self.value == value:
+            print(f"{value} exists")
+            return
+
+        # Evaluate left nodes
+        if self.value > value:
+            if self.left is None:
+                self.left = BinarySearchTree(value)
+            else:
+                self.left.insert(value)
+
+        # Evaluate right nodes
+        if self.value < value:
+            if self.right is None:    
+                self.right = BinarySearchTree(value)
+            else:
+                self.right.insert(value)
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        if self.value == target:
+            return True
+
+        # Base case
+        if self.value is None:
+            return False
+
+        # Evaluate left nodes
+        if self.value > target:
+            if self.left:
+                if self.left.value == target:
+                    return True
+                else:
+                    self.left.contains(target)
+            else:
+                return False
+                
+        # Evaluate right nodes
+        if self.value < target:
+            if self.right:
+                if self.right.value == target:
+                    return True
+                else:
+                    self.right.contains(target)
+            else:
+                return False
+        else:
+            return False
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
-
+        # check for right nodes
+        if self.right is None:
+            # NO - return parent node value
+            return self.value
+        # YES - evaluate right subtrees
+        else:
+            subtree = self.right
+            while subtree:
+                if subtree.right is None:
+                    return subtree.value
+                else:
+                    subtree = subtree.right
+                
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
     def for_each(self, cb):
-        pass
+        cb(self.value)
+
+        if self.left:
+            self.left.for_each(cb)
+
+        if self.right:
+            self.right.for_each(cb)
 
     # DAY 2 Project -----------------------
 
@@ -55,3 +117,12 @@ class BinarySearchTree:
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
         pass
+
+bst = BinarySearchTree(5)
+printVal = lambda x: print(f"2x value: {x}")
+
+print(bst.value)
+bst.insert(2)
+bst.insert(30)
+bst.insert(300)
+bst.for_each(printVal)
