@@ -1,3 +1,6 @@
+from dll_stack import Stack
+from dll_queue import Queue
+
 class BinarySearchTree:
     def __init__(self, value):
         self.value = value
