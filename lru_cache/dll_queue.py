@@ -1,30 +1,30 @@
 from doubly_linked_list import DoublyLinkedList
 
-class Stack:
+
+class Queue:
     def __init__(self):
         self.size = 0
         # Why is our DLL a good choice to store our elements?
-            # ANSWER: Push and Pop have O(1) time complexity
+        # ANSWER: enqueue and dequeue have O(1) time complexity
         self.storage = DoublyLinkedList()
 
-    def push(self, value):
+    def enqueue(self, value):
         if self.storage.length == 0:
             self.storage.add_to_head(value)
 
         else:
             self.storage.add_to_tail(value)
-        
+
         self.size = self.storage.length
 
-    def pop(self):
-        if self.storage.tail is None:
+    def dequeue(self):
+        if self.storage.head is None:
             return None
 
         else:
-            tail = self.storage.remove_from_tail()
+            head = self.storage.remove_from_head()
             self.size = self.storage.length
-            return tail
-
+            return head
 
     def len(self):
         return self.size

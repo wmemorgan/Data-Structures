@@ -240,7 +240,8 @@ class DoublyLinkedList:
 
     def delete(self, node):
         if not self.find_node(node):
-            return None
+            print("Node not found")
+            return
 
         if node is self.head:
             self.remove_from_head()
