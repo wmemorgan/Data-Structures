@@ -41,25 +41,17 @@ class BinarySearchTree:
 
         # Evaluate left nodes
         if self.value > target:
-            if self.left:
-                if self.left.value == target:
-                    return True
-                else:
-                    self.left.contains(target)
-            else:
+            if not self.left:
                 return False
+            else:
+                return self.left.contains(target)
                 
         # Evaluate right nodes
-        if self.value < target:
-            if self.right:
-                if self.right.value == target:
-                    return True
-                else:
-                    self.right.contains(target)
-            else:
-                return False
         else:
-            return False
+            if not self.right:
+                return False
+            else:
+                return self.right.contains(target)
 
     # Return the maximum value found in the tree
     def get_max(self):
@@ -115,11 +107,11 @@ class BinarySearchTree:
     def post_order_dft(self, node):
         pass
 
-bst = BinarySearchTree(5)
-printVal = lambda x: print(f"2x value: {x}")
+# bst = BinarySearchTree(5)
+# printVal = lambda x: print(f"2x value: {x}")
 
-print(bst.value)
-bst.insert(2)
-bst.insert(30)
-bst.insert(300)
-bst.for_each(printVal)
+# print(bst.value)
+# bst.insert(2)
+# bst.insert(30)
+# bst.insert(300)
+# bst.for_each(printVal)
